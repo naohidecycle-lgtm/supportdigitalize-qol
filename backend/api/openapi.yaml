@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: SupportDigitalize QOL API (Mock)
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:4010/api/v1
+paths:
+  /qol/weekly:
+    get:
+      summary: Get weekly metrics (mock)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date: { type: string, example: "2025-10-29" }
+                        steps: { type: integer, example: 8300 }
+                        stress_avg: { type: number, example: 42.1 }

@@ -1,0 +1,30 @@
+site_name: SupportDigitalize Docs
+site_description: Backend architecture & runbooks
+repo_url: https://github.com/naohidecycle-lgtm/supportdigitalize-qol
+theme:
+  name: material
+  language: ja
+  features:
+    - navigation.expand
+    - toc.integrate
+    - content.code.copy
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+nav:
+  - Home: index.md
+  - Backend:
+      - Standard（最新）: backend_standard_spec.md
+      - Archive:
+          - 2025-11-04: archive/backend_standard_spec_20251104.md
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - js/mermaid-init.js

@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Data & outputs
+*.csv
+*.tsv
+*.parquet
+*.jsonl
+/data/
+*/outputs/
+*/logs/
+
+# Backups & archives
+backup/
+*.zip
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
