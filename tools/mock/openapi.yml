@@ -1,0 +1,43 @@
+openapi: 3.0.1
+info:
+  title: SupportDigitalize Weekly API (Mock)
+  version: 0.1.0
+servers:
+  - url: http://127.0.0.1:4010
+paths:
+  /qol/weekly:
+    get:
+      summary: Weekly recommendation snapshot
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                        steps:
+                          type: integer
+                        stress_avg:
+                          type: number
+                        recommendation:
+                          type: string
+                        reason:
+                          type: string
+              examples:
+                sample:
+                  value:
+                    items:
+                      - date: "2025-11-07"
+                        steps: 8300
+                        stress_avg: 42.1
+                        recommendation: "今日は軽めの散歩を20分。就寝前に深呼吸3分。"
+                        reason: "直近の歩数は良好ですがストレス平均が高め。軽運動＋リラクゼーションで回復を優先。"

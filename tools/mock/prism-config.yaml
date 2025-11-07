@@ -1,0 +1,5 @@
+mock:
+  dynamic: false
+  format: json
+# 使い方メモ:
+# prism mock ./openapi.yml --port=4010 --cors
