@@ -48,12 +48,11 @@ dependencies {
   implementation("androidx.compose.ui:ui-tooling-preview:$compose")
   implementation("androidx.compose.material3:material3:1.3.0")
 
-  // ★ StateFlow を Compose から安全に購読するために追加
-  implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.6")
-
-  // Lifecycle / ViewModel
-  implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
-  implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
+  // Lifecycle / ViewModel（2.8.7に統一）
+  implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+  implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+  implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+  implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 
   // Retrofit + Moshi + OkHttp
   implementation("com.squareup.retrofit2:retrofit:2.11.0")
