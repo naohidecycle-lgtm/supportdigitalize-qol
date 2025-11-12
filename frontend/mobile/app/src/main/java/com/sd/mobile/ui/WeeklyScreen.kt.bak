@@ -10,9 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.sd.mobile.data.remote.WeeklyItem
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,22 +19,15 @@ fun WeeklyScreen(
     viewModel: WeeklyViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
-    // 固定メッセージバー用のローカル状態（Snackbarの代替）
-    var messageBar by remember { mutableStateOf<String?>(null) }
+    val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    // ViewModel からのワンショットイベントを受け取り → メッセージバーに表示
+    // ViewModel からのワンショットイベントを捕捉（Snackbar表示）
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
                 is WeeklyUiEvent.ShowMessage -> {
-                    messageBar = event.message
-                    // 3秒後に自動で消える
-                    scope.launch {
-                        delay(3000)
-                        if (messageBar == event.message) messageBar = null
-                    }
+                    snackbarHostState.showSnackbar(message = event.message)
                 }
             }
         }
@@ -45,16 +36,16 @@ fun WeeklyScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("今週のおすすめ", fontSize = 20.sp) },
+                title = { Text("今週のおすすめ") },
                 actions = {
-                    TextButton(onClick = { viewModel.reload() }) {
-                        Text("再読み込み", fontSize = 16.sp)
-                    }
+                    TextButton(
+                        onClick = { viewModel.reload() }
+                    ) { Text("再読み込み") }
                 }
             )
         },
-        bottomBar = {
-            MessageBar(message = messageBar)
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         }
     ) { innerPadding ->
         Box(
@@ -64,12 +55,14 @@ fun WeeklyScreen(
         ) {
             when (val state = uiState) {
                 is WeeklyUiState.Loading -> {
+                    // ローディング表示
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
 
                 is WeeklyUiState.Error -> {
+                    // エラー表示＋再試行
                     ErrorView(
                         message = state.message,
                         onRetry = { viewModel.reload() }
@@ -84,39 +77,13 @@ fun WeeklyScreen(
                             items = state.items,
                             onTry = {
                                 viewModel.onTryClicked()
-                                messageBar = "実行しました：${it.recommendation}"
                                 scope.launch {
-                                    delay(3000)
-                                    if (messageBar?.startsWith("実行しました") == true) messageBar = null
+                                    snackbarHostState.showSnackbar("実行しました：${it.recommendation}")
                                 }
                             }
                         )
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-private fun MessageBar(message: String?) {
-    // 画面下に常に確保しておく（空なら高さだけのスペーサー）
-    val visible = message != null
-    Surface(
-        tonalElevation = if (visible) 2.dp else 0.dp
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height( if (visible) 48.dp else 12.dp )
-                .padding(horizontal = 16.dp),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            if (visible) {
-                Text(
-                    text = message!!,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp)
-                )
             }
         }
     }
@@ -134,20 +101,15 @@ private fun ErrorView(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("データの取得に失敗しました", style = MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp))
+        Text("データの取得に失敗しました", style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(8.dp))
         Text(
             text = message,
-            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp)
+            style = MaterialTheme.typography.bodyMedium
         )
         Spacer(Modifier.height(16.dp))
-        Button(
-            onClick = onRetry,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-        ) {
-            Text("もう一度ためす", fontSize = 16.sp)
+        Button(onClick = onRetry) {
+            Text("もう一度ためす")
         }
     }
 }
@@ -161,16 +123,9 @@ private fun EmptyView(onReload: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("表示できるデータがありません", style = MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp))
+        Text("表示できるデータがありません", style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(8.dp))
-        Button(
-            onClick = onReload,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-        ) {
-            Text("再読み込み", fontSize = 16.sp)
-        }
+        Button(onClick = onReload) { Text("再読み込み") }
     }
 }
 
@@ -202,28 +157,24 @@ private fun WeeklyCard(
         Column(Modifier.padding(16.dp)) {
             Text(
                 text = item.recommendation,
-                style = MaterialTheme.typography.titleMedium.copy(fontSize = 20.sp),
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(4.dp))
             Text(
                 text = item.reason,
-                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 16.sp)
+                style = MaterialTheme.typography.bodyMedium
             )
             Spacer(Modifier.height(12.dp))
 
+            // メタ情報（日付 / 歩数 / ストレス平均）
             AssistChipRow(item = item)
 
             Spacer(Modifier.height(12.dp))
-            Button(
-                onClick = onTry,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-            ) {
-                Text("やってみる", fontSize = 18.sp)
+            FilledTonalButton(onClick = onTry) {
+                Text("やってみる")
             }
         }
     }
@@ -236,18 +187,15 @@ private fun AssistChipRow(item: WeeklyItem) {
     ) {
         AssistChip(
             onClick = {},
-            enabled = false,
-            label = { Text("日付：${item.date}", fontSize = 14.sp) }
+            label = { Text("日付：${item.date}") }
         )
         AssistChip(
             onClick = {},
-            enabled = false,
-            label = { Text("歩数：${item.steps}", fontSize = 14.sp) }
+            label = { Text("歩数：${item.steps}") }
         )
         AssistChip(
             onClick = {},
-            enabled = false,
-            label = { Text("平均ストレス：${"%.1f".format(item.stressAvg)}", fontSize = 14.sp) }
+            label = { Text("平均ストレス：${"%.1f".format(item.stressAvg)}") }
         )
     }
 }

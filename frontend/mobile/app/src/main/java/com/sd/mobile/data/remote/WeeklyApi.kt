@@ -4,5 +4,5 @@ import retrofit2.http.GET
 
 interface WeeklyApi {
     @GET("/qol/weekly")
-    suspend fun getWeekly(): WeeklyResponse
+    suspend fun getWeekly(): WeeklyListResponse
 }

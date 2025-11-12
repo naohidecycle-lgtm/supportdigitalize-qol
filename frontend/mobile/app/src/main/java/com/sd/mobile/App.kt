@@ -1,7 +1,7 @@
 package com.sd.mobile
 
 import android.app.Application
-import com.sd.mobile.data.Repository
+import com.sd.mobile.data.WeeklyRepository      // ← ここを修正
 import com.sd.mobile.data.remote.WeeklyApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,10 +16,7 @@ class App : Application() {
     // Debug のときだけHTTPログを出す（任意）
     private val okHttp by lazy {
         val builder = OkHttpClient.Builder()
-        // BuildConfig.DEBUG が使えるなら以下を有効化
-        val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BASIC
-        }
+        val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
         builder.addInterceptor(logging)
         builder.build()
     }
@@ -36,8 +33,8 @@ class App : Application() {
         retrofit.create(WeeklyApi::class.java)
     }
 
-    // ここで Repository に WeeklyApi を注入
-    val repository: Repository by lazy {
-        Repository(api)
+    // ここで WeeklyRepository に WeeklyApi を注入（型も名前も修正）
+    val repository: WeeklyRepository by lazy {
+        WeeklyRepository(api)
     }
 }

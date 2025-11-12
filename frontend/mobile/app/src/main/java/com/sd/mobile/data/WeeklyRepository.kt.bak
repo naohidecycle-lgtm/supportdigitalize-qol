@@ -1,0 +1,15 @@
+// app/src/main/java/com/sd/mobile/data/WeeklyRepository.kt
+package com.sd.mobile.data
+
+import com.sd.mobile.data.remote.RetrofitProvider
+import com.sd.mobile.data.remote.WeeklyApi
+import com.sd.mobile.data.remote.WeeklyItem
+
+class WeeklyRepository {
+    private val api: WeeklyApi = RetrofitProvider.retrofit.create(WeeklyApi::class.java)
+
+    suspend fun fetchWeekly(): List<WeeklyItem> {
+        val res = api.getWeekly()
+        return res.items
+    }
+}

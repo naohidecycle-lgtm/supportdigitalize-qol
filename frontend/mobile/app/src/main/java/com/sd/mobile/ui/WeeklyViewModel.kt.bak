@@ -1,0 +1,54 @@
+package com.sd.mobile.ui
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sd.mobile.data.WeeklyRepository
+import com.sd.mobile.data.remote.WeeklyItem
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
+
+// UIの状態
+sealed interface WeeklyUiState {
+    data object Loading : WeeklyUiState
+    data class Data(val items: List<WeeklyItem>) : WeeklyUiState
+    data class Error(val message: String) : WeeklyUiState
+}
+
+/**
+ * GET /qol/weekly の読み込みを担う ViewModel（POSTは未実装）
+ */
+class WeeklyViewModel(
+    private val repo: WeeklyRepository = WeeklyRepository()
+) : ViewModel() {
+
+    private val _state = MutableStateFlow<WeeklyUiState>(WeeklyUiState.Loading)
+    val state: StateFlow<WeeklyUiState> = _state
+
+    // Snackbar 用ワンショットイベント
+    private val _snackbar = MutableSharedFlow<String>(extraBufferCapacity = 1)
+    val snackbar: SharedFlow<String> = _snackbar.asSharedFlow()
+
+    /** 初期読み込み（GET） */
+    fun load() {
+        _state.value = WeeklyUiState.Loading
+        viewModelScope.launch {
+            runCatching { repo.fetchWeekly() }
+                .onSuccess { list ->
+                    _state.value = WeeklyUiState.Data(list)
+                }
+                .onFailure { e ->
+                    _state.value = WeeklyUiState.Error(e.message ?: "unknown error")
+                }
+        }
+    }
+
+    /** 「やってみる」押下時（今はGET専用のためダミー通知のみ） */
+    fun onTryClicked(date: String) {
+        // POST /qol/weekly/ack は未実装。将来フルspec導入時に実装する。
+        _snackbar.tryEmit("（デモ）GET専用モード：送信機能は未実装です")
+    }
+}

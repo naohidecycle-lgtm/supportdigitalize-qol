@@ -2,67 +2,57 @@ package com.sd.mobile.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sd.mobile.data.Repository
+import com.sd.mobile.data.WeeklyRepository
 import com.sd.mobile.data.remote.WeeklyItem
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.text.NumberFormat
-import java.util.Locale
 
-sealed interface UiState {
-    object Loading : UiState
-    data class Success(
-        val item: WeeklyItem,
-        val steps: String,
-        val stressAvg: String,
-        val sleepHours: String
-    ) : UiState
-    data class Error(val type: ErrorType) : UiState
+sealed interface WeeklyUiState {
+    data object Loading : WeeklyUiState
+    data class Success(val items: List<WeeklyItem>) : WeeklyUiState
+    data class Error(val message: String) : WeeklyUiState
 }
 
-enum class ErrorType { NETWORK, SERVER, PARSE, EMPTY, UNKNOWN }
+sealed interface WeeklyUiEvent {
+    data class ShowMessage(val message: String) : WeeklyUiEvent
+}
 
-class WeeklyViewModel(private val repo: Repository) : ViewModel() {
+class WeeklyViewModel(
+    private val repository: WeeklyRepository
+) : ViewModel() {
 
-    private val _state = MutableStateFlow<UiState>(UiState.Loading)
-    val state: StateFlow<UiState> = _state
+    private val _uiState = MutableStateFlow<WeeklyUiState>(WeeklyUiState.Loading)
+    val uiState: StateFlow<WeeklyUiState> = _uiState
 
-    // UI側でLaunchedEffectから呼ぶ運用なら、このinitは削除してOK
-    init { load() }
+    private val _events = Channel<WeeklyUiEvent>(capacity = Channel.BUFFERED)
+    val events = _events.receiveAsFlow()
 
-    fun load() {
-        _state.value = UiState.Loading
+    init {
+        reload()
+    }
+
+    fun reload() {
+        _uiState.value = WeeklyUiState.Loading
         viewModelScope.launch {
-            try {
-                val res = repo.fetchWeekly()
-                val first = res.items.firstOrNull()
-                if (first != null) {
-                    val steps = formatSteps(first.steps)
-                    val stressAvg = formatDouble(first.stress_avg)
-                    val sleepHours = formatDouble(first.sleep_hours, suffix = " h")
-                    _state.value = UiState.Success(first, steps, stressAvg, sleepHours)
-                } else {
-                    _state.value = UiState.Error(ErrorType.EMPTY)
-                }
-            } catch (e: Repository.DomainException) {
-                val type = when (e.error) {
-                    is Repository.DomainError.NETWORK -> ErrorType.NETWORK
-                    is Repository.DomainError.CLIENT  -> ErrorType.SERVER   // 必要なら CLIENT を別型に分離可
-                    is Repository.DomainError.SERVER  -> ErrorType.SERVER
-                    is Repository.DomainError.PARSE   -> ErrorType.PARSE
-                    is Repository.DomainError.UNKNOWN -> ErrorType.UNKNOWN
-                }
-                _state.value = UiState.Error(type)
-            } catch (e: Exception) {
-                _state.value = UiState.Error(ErrorType.UNKNOWN)
-            }
+            repository.fetchWeekly()
+                .onSuccess { items -> _uiState.value = WeeklyUiState.Success(items) }
+                .onFailure { t -> _uiState.value = WeeklyUiState.Error(userFriendlyMessage(t)) }
         }
     }
 
-    private fun formatSteps(steps: Int?): String =
-        steps?.let { NumberFormat.getNumberInstance(Locale.US).format(it) } ?: "—"
+    fun onTryClicked() {
+        viewModelScope.launch {
+            _events.send(WeeklyUiEvent.ShowMessage("実行しました"))
+        }
+    }
 
-    private fun formatDouble(value: Double?, suffix: String = ""): String =
-        value?.let { String.format(Locale.US, "%.1f%s", it, suffix) } ?: "—"
+    private fun userFriendlyMessage(t: Throwable): String {
+        val raw = t.message?.ifBlank { null }
+        return "通信に失敗しました。Prismの起動やネットワークをご確認ください" +
+                (raw?.let { "\n\n詳細: $it" } ?: "")
+    }
 }
+
