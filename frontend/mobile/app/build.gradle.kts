@@ -54,11 +54,12 @@ dependencies {
   implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
   implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 
-  // Retrofit + Moshi + OkHttp
+    // Retrofit + Gson + OkHttp
   implementation("com.squareup.retrofit2:retrofit:2.11.0")
-  implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
+  implementation("com.squareup.retrofit2:converter-gson:2.11.0")
   implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-  implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
+  implementation("com.google.code.gson:gson:2.11.0")
+
 
   // 開発時ツール
   debugImplementation("androidx.compose.ui:ui-tooling:$compose")

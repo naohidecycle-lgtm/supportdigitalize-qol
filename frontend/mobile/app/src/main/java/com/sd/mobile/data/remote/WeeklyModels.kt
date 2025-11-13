@@ -1,19 +1,29 @@
 package com.sd.mobile.data.remote
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
-@JsonClass(generateAdapter = true)
-data class WeeklyListResponse(
-    @Json(name = "items") val items: List<WeeklyItem>
+// /qol/weekly の1件分
+data class WeeklyItem(
+    @SerializedName("date") val date: String,
+    @SerializedName("steps") val steps: Int,
+    // JSON は "stress_avg" だが、UI では stressAvg で扱いたいのでマッピング
+    @SerializedName("stress_avg") val stressAvg: Double,
+    @SerializedName("recommendation") val recommendation: String,
+    @SerializedName("reason") val reason: String
 )
 
-@JsonClass(generateAdapter = true)
-data class WeeklyItem(
-    val date: String,
-    val steps: Int,
-    @Json(name = "stress_avg") val stressAvg: Double,
-    val sleep_hours: Double?,
-    val recommendation: String,
-    val reason: String
+// /qol/weekly のレスポンス全体
+data class WeeklyListResponse(
+    @SerializedName("items") val items: List<WeeklyItem>
+)
+
+// POST /qol/weekly/ack のリクエストボディ
+data class AckRequest(
+    @SerializedName("date") val date: String
+)
+
+// POST /qol/weekly/ack のレスポンス
+data class AckResponse(
+    @SerializedName("ok") val ok: Boolean,
+    @SerializedName("receivedDate") val receivedDate: String
 )

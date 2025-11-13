@@ -4,55 +4,81 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sd.mobile.data.WeeklyRepository
 import com.sd.mobile.data.remote.WeeklyItem
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-sealed interface WeeklyUiState {
-    data object Loading : WeeklyUiState
-    data class Success(val items: List<WeeklyItem>) : WeeklyUiState
-    data class Error(val message: String) : WeeklyUiState
-}
-
-sealed interface WeeklyUiEvent {
-    data class ShowMessage(val message: String) : WeeklyUiEvent
-}
+data class WeeklyUiState(
+    val isLoading: Boolean = false,
+    val items: List<WeeklyItem> = emptyList(),
+    val errorMessage: String? = null,
+    val isSendingAck: Boolean = false,
+    val lastAckDate: String? = null
+)
 
 class WeeklyViewModel(
     private val repository: WeeklyRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<WeeklyUiState>(WeeklyUiState.Loading)
-    val uiState: StateFlow<WeeklyUiState> = _uiState
-
-    private val _events = Channel<WeeklyUiEvent>(capacity = Channel.BUFFERED)
-    val events = _events.receiveAsFlow()
+    private val _uiState = MutableStateFlow(
+        WeeklyUiState(isLoading = true)
+    )
+    val uiState: StateFlow<WeeklyUiState> = _uiState.asStateFlow()
 
     init {
-        reload()
+        loadWeekly()
     }
 
-    fun reload() {
-        _uiState.value = WeeklyUiState.Loading
+    fun loadWeekly() {
         viewModelScope.launch {
-            repository.fetchWeekly()
-                .onSuccess { items -> _uiState.value = WeeklyUiState.Success(items) }
-                .onFailure { t -> _uiState.value = WeeklyUiState.Error(userFriendlyMessage(t)) }
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+            val result = repository.fetchWeekly()
+            result
+                .onSuccess { list ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            items = list,
+                            errorMessage = null
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = e.message ?: "データの取得に失敗しました"
+                        )
+                    }
+                }
         }
     }
 
-    fun onTryClicked() {
+    fun sendAck(date: String) {
         viewModelScope.launch {
-            _events.send(WeeklyUiEvent.ShowMessage("実行しました"))
-        }
-    }
+            _uiState.update { it.copy(isSendingAck = true, errorMessage = null) }
 
-    private fun userFriendlyMessage(t: Throwable): String {
-        val raw = t.message?.ifBlank { null }
-        return "通信に失敗しました。Prismの起動やネットワークをご確認ください" +
-                (raw?.let { "\n\n詳細: $it" } ?: "")
+            val result = repository.sendAck(date)
+            result
+                .onSuccess { ack ->
+                    _uiState.update {
+                        it.copy(
+                            isSendingAck = false,
+                            lastAckDate = ack.receivedDate
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _uiState.update {
+                        it.copy(
+                            isSendingAck = false,
+                            errorMessage = e.message ?: "送信に失敗しました"
+                        )
+                    }
+                }
+        }
     }
 }
-
