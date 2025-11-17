@@ -1,0 +1,21 @@
+package com.sd.mobile.data
+
+import com.sd.mobile.data.remote.AckRequest
+import com.sd.mobile.data.remote.WeeklyApi
+import com.sd.mobile.data.remote.WeeklyItem
+
+/**
+ * Weeklyデータの取得と「やってみる」送信を担う Repository
+ */
+class WeeklyRepository(
+    private val api: WeeklyApi
+) {
+    // 明示的に List<WeeklyItem> を返す（ViewModel 側の型推論エラーを防ぐ）
+    suspend fun fetchWeekly(): List<WeeklyItem> =
+        api.getWeekly().items
+
+    suspend fun postAck(date: String): Result<Unit> = runCatching {
+        api.postAck(AckRequest(date))
+        Unit
+    }
+}

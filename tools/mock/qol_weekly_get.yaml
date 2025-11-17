@@ -1,0 +1,95 @@
+openapi: 3.0.0
+info:
+  title: QOL Weekly API (GET only)
+  version: 1.0.1
+servers:
+  - url: http://127.0.0.1:4010
+
+paths:
+  /qol/weekly:
+    get:
+      summary: Get weekly QOL data list
+      description: 週次QOLデータの一覧を取得
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WeeklyItem'
+              example:
+                items:
+                  - date: "2019-08-24"
+                    steps: 8200
+                    stress_avg: 42.1
+                    recommendation: "Take a walk after lunch"
+                    reason: "Afternoon activity improves sleep"
+                  - date: "2019-08-31"
+                    steps: 9200
+                    stress_avg: 35.7
+                    recommendation: "Stretch before bed"
+                    reason: "Reduces tension and improves rest"
+
+  /qol/weekly/{date}:
+    get:
+      summary: Get weekly QOL data by date
+      description: 指定日付の週次QOLデータを取得
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "2019-08-24"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeeklyItem'
+              example:
+                date: "2019-08-24"
+                steps: 8200
+                stress_avg: 42.1
+                recommendation: "Take a walk after lunch"
+                reason: "Afternoon activity improves sleep"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "not found"
+
+  /favicon.ico:
+    get:
+      summary: Dummy favicon (silence browser requests)
+      responses:
+        '204':
+          description: No Content
+
+components:
+  schemas:
+    WeeklyItem:
+      type: object
+      properties:
+        date:
+          type: string
+          description: ISO date like YYYY-MM-DD
+        steps:
+          type: integer
+        stress_avg:
+          type: number
+        recommendation:
+          type: string
+        reason:
+          type: string

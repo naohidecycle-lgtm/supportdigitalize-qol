@@ -1,29 +1,26 @@
 package com.sd.mobile.data.remote
 
-import com.google.gson.annotations.SerializedName
-
-// /qol/weekly の1件分
+// 1日分のデータ
 data class WeeklyItem(
-    @SerializedName("date") val date: String,
-    @SerializedName("steps") val steps: Int,
-    // JSON は "stress_avg" だが、UI では stressAvg で扱いたいのでマッピング
-    @SerializedName("stress_avg") val stressAvg: Double,
-    @SerializedName("recommendation") val recommendation: String,
-    @SerializedName("reason") val reason: String
+    val date: String,
+    val steps: Int,
+    val stress_avg: Double,
+    val recommendation: String,
+    val reason: String
 )
 
-// /qol/weekly のレスポンス全体
-data class WeeklyListResponse(
-    @SerializedName("items") val items: List<WeeklyItem>
+// GET /qol/weekly のレスポンス
+data class WeeklyResponse(
+    val items: List<WeeklyItem>
 )
 
 // POST /qol/weekly/ack のリクエストボディ
 data class AckRequest(
-    @SerializedName("date") val date: String
+    val date: String
 )
 
 // POST /qol/weekly/ack のレスポンス
 data class AckResponse(
-    @SerializedName("ok") val ok: Boolean,
-    @SerializedName("receivedDate") val receivedDate: String
+    val ok: Boolean,
+    val receivedDate: String
 )

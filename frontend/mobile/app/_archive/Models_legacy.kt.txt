@@ -1,0 +1,18 @@
+package com.sd.mobile.data.remote
+
+// ===== モデル定義はここに集約 =====
+
+data class WeeklyItem(
+    val date: String,
+    val steps: Int,
+    val stress_avg: Double,
+    val recommendation: String,
+    val reason: String
+)
+
+data class WeeklyResponse(
+    val items: List<WeeklyItem>
+)
+
+data class AckRequest(val date: String)
+data class AckResponse(val ok: Boolean, val receivedDate: String?)

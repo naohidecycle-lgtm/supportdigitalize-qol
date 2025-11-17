@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: SupportDigitalize QOL Weekly API (Mock)
+  version: "1.0.0"
+servers:
+  - url: http://127.0.0.1:4010
+paths:
+  /qol/weekly:
+    get:
+      summary: Get weekly items
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date: { type: string, example: "2019-08-24" }
+                        steps: { type: integer, example: 8200 }
+                        stress_avg: { type: number, format: float, example: 42.1 }
+                        sleep_hours: { type: number, format: float, example: 6.5 }
+                        recommendation: { type: string, example: "夕方に15分の散歩をしましょう" }
+                        reason: { type: string, example: "今歩数が少なめです、ストレス平均がやや高めです、今週は座位時間が長めです" }
+              examples:
+                sample:
+                  value:
+                    items:
+                      - date: "2019-08-24"
+                        steps: 8200
+                        stress_avg: 42.1
+                        sleep_hours: 6.5
+                        recommendation: "夕方に15分の散歩をしましょう"
+                        reason: "今歩数が少なめです、ストレス平均がやや高めです、今週は座位時間が長めです"
+
+  /qol/weekly/ack:
+    post:
+      summary: Acknowledge trying the recommendation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  example: "2019-08-24"
+      responses:
+        "200":
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean, example: true }
+                  receivedDate: { type: string, example: "2019-08-24" }
+              examples:
+                ok:
+                  value: { ok: true, receivedDate: "2019-08-24" }
+

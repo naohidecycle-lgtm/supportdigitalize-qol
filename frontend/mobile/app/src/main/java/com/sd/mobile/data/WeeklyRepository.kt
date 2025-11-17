@@ -1,28 +1,31 @@
 package com.sd.mobile.data
 
+import com.sd.mobile.data.remote.AckHistoryItem
 import com.sd.mobile.data.remote.AckRequest
 import com.sd.mobile.data.remote.AckResponse
 import com.sd.mobile.data.remote.WeeklyApi
-import com.sd.mobile.data.remote.WeeklyItem
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.sd.mobile.data.remote.WeeklyResponse
 
-class WeeklyRepository(
-    private val api: WeeklyApi
-) {
 
-    // GET /qol/weekly → List<WeeklyItem> を Result で返す
-    suspend fun fetchWeekly(): Result<List<WeeklyItem>> = withContext(Dispatchers.IO) {
-        runCatching {
-            val response = api.getWeekly()
+/**
+ * M5 用のシンプルな Repository 実装
+ * - WeeklyApi.getWeekly() / WeeklyApi.postAck() をそのまま委譲
+ * - 戻り値は Result<> でラップ
+ */
+class WeeklyRepository {
+
+    suspend fun getWeekly(): Result<WeeklyResponse> =
+        WeeklyApi.getWeekly()
+
+    suspend fun postAck(request: AckRequest): Result<AckResponse> =
+        WeeklyApi.postAck(request)
+
+    suspend fun getAckHistory(limit: Int = 10): Result<List<AckHistoryItem>> {
+        return WeeklyApi.getAckHistory(limit).mapCatching { response ->
             response.items
         }
     }
-
-    // POST /qol/weekly/ack → AckResponse を Result で返す
-    suspend fun sendAck(date: String): Result<AckResponse> = withContext(Dispatchers.IO) {
-        runCatching {
-            api.postAck(AckRequest(date = date))
-        }
-    }
 }
+
+
+

@@ -8,10 +8,8 @@
         android:minSdkVersion="26"
         android:targetSdkVersion="35" />
 
-    <!-- ★ 通信に必須 -->
+    <!-- ★ ここを追加（必ず <application> の“外側”） -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- （任意）ネット状態の把握が必要なら追加 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <permission
         android:name="com.sd.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -20,14 +18,17 @@
     <uses-permission android:name="com.sd.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
+        android:name="com.sd.mobile.App"
+        android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
         android:label="SupportDigitalize"
-        android:networkSecurityConfig="@xml/network_security_config"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:usesCleartextTraffic="true" >
         <activity
-            android:name="com.sd.mobile.App"
+            android:name="com.sd.mobile.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,12 +36,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="androidx.activity.ComponentActivity"
-            android:exported="true" />
-        <activity
-            android:name="androidx.compose.ui.tooling.PreviewActivity"
-            android:exported="true" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
@@ -56,6 +51,13 @@
                 android:name="androidx.profileinstaller.ProfileInstallerInitializer"
                 android:value="androidx.startup" />
         </provider>
+
+        <activity
+            android:name="androidx.compose.ui.tooling.PreviewActivity"
+            android:exported="true" />
+        <activity
+            android:name="androidx.activity.ComponentActivity"
+            android:exported="true" />
 
         <receiver
             android:name="androidx.profileinstaller.ProfileInstallReceiver"

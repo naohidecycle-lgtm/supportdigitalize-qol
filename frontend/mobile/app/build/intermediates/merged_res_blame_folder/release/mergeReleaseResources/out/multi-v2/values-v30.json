@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.sd.mobile.app-mergeReleaseResources-41:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "/home/nao14/.gradle/caches/8.9/transforms/33b540b6f8d87b36e3f1502163ac04ae/transformed/material3-release/res/values-v30/values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}

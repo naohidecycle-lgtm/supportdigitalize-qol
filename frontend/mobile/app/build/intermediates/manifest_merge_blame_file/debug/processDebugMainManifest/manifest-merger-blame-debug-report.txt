@@ -8,133 +8,136 @@
 8        android:minSdkVersion="26"
 9        android:targetSdkVersion="35" />
 10
-11    <!-- ★ 通信に必須 -->
+11    <!-- ★ ここを追加（必ず <application> の“外側”） -->
 12    <uses-permission android:name="android.permission.INTERNET" />
-12-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:4:5-67
-12-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:4:22-64
-13    <!-- （任意）ネット状態の把握が必要なら追加 -->
-14    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-14-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:6:5-79
-14-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:6:22-76
-15
-16    <permission
-16-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/fb84da60e70f1fe14ca0c45d989c3599/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
-17        android:name="com.sd.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-17-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/fb84da60e70f1fe14ca0c45d989c3599/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
-18        android:protectionLevel="signature" />
-18-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/fb84da60e70f1fe14ca0c45d989c3599/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+12-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:5:5-67
+12-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:5:22-64
+13
+14    <permission
+14-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/4da922239ca04a8b15d5c7dca5341e5c/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+15        android:name="com.sd.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+15-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/4da922239ca04a8b15d5c7dca5341e5c/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+16        android:protectionLevel="signature" />
+16-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/4da922239ca04a8b15d5c7dca5341e5c/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+17
+18    <uses-permission android:name="com.sd.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+18-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/4da922239ca04a8b15d5c7dca5341e5c/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+18-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/4da922239ca04a8b15d5c7dca5341e5c/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
 19
-20    <uses-permission android:name="com.sd.mobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-20-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/fb84da60e70f1fe14ca0c45d989c3599/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
-20-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/fb84da60e70f1fe14ca0c45d989c3599/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
-21
-22    <application
-22-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:8:5-22:19
+20    <application
+20-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:7:5-26:19
+21        android:name="com.sd.mobile.App"
+21-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:8:9-41
+22        android:allowBackup="true"
+22-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:9:9-35
 23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-23-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/fb84da60e70f1fe14ca0c45d989c3599/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+23-->[androidx.core:core:1.13.1] /home/nao14/.gradle/caches/8.9/transforms/4da922239ca04a8b15d5c7dca5341e5c/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 24        android:debuggable="true"
 25        android:extractNativeLibs="false"
 26        android:label="SupportDigitalize"
-26-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:9:9-42
-27        android:networkSecurityConfig="@xml/network_security_config"
-27-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:11:9-69
-28        android:usesCleartextTraffic="true" >
-28-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:10:9-44
-29        <activity
-29-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:13:9-20:20
-30            android:name="com.sd.mobile.App"
-30-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:14:13-32
-31            android:exported="true" >
-31-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:15:13-36
-32            <intent-filter>
-32-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:16:13-19:29
-33                <action android:name="android.intent.action.MAIN" />
-33-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:17:17-69
-33-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:17:25-66
-34
-35                <category android:name="android.intent.category.LAUNCHER" />
-35-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:18:17-77
-35-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:18:27-74
-36            </intent-filter>
-37        </activity>
-38        <activity
-38-->[androidx.compose.ui:ui-test-manifest:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/7baabe376abc4974f5d8572dcbe1c826/transformed/ui-test-manifest-1.7.5/AndroidManifest.xml:23:9-25:39
-39            android:name="androidx.activity.ComponentActivity"
-39-->[androidx.compose.ui:ui-test-manifest:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/7baabe376abc4974f5d8572dcbe1c826/transformed/ui-test-manifest-1.7.5/AndroidManifest.xml:24:13-63
-40            android:exported="true" />
-40-->[androidx.compose.ui:ui-test-manifest:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/7baabe376abc4974f5d8572dcbe1c826/transformed/ui-test-manifest-1.7.5/AndroidManifest.xml:25:13-36
-41        <activity
-41-->[androidx.compose.ui:ui-tooling-android:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/264f0d5a4b57607a51d9094f0cc4d8dc/transformed/ui-tooling-release/AndroidManifest.xml:23:9-25:39
-42            android:name="androidx.compose.ui.tooling.PreviewActivity"
-42-->[androidx.compose.ui:ui-tooling-android:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/264f0d5a4b57607a51d9094f0cc4d8dc/transformed/ui-tooling-release/AndroidManifest.xml:24:13-71
-43            android:exported="true" />
-43-->[androidx.compose.ui:ui-tooling-android:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/264f0d5a4b57607a51d9094f0cc4d8dc/transformed/ui-tooling-release/AndroidManifest.xml:25:13-36
-44
-45        <provider
-45-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/9ba85c0cd0676950cb8be50b04d5b332/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
-46            android:name="androidx.startup.InitializationProvider"
-46-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/9ba85c0cd0676950cb8be50b04d5b332/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
-47            android:authorities="com.sd.mobile.androidx-startup"
-47-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/9ba85c0cd0676950cb8be50b04d5b332/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
-48            android:exported="false" >
-48-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/9ba85c0cd0676950cb8be50b04d5b332/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
-49            <meta-data
-49-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/9ba85c0cd0676950cb8be50b04d5b332/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
-50                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-50-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/9ba85c0cd0676950cb8be50b04d5b332/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
-51                android:value="androidx.startup" />
-51-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/9ba85c0cd0676950cb8be50b04d5b332/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
-52            <meta-data
-52-->[androidx.lifecycle:lifecycle-process:2.8.6] /home/nao14/.gradle/caches/8.9/transforms/937f98550b41b0264112c6151a3e6ffd/transformed/lifecycle-process-2.8.6/AndroidManifest.xml:29:13-31:52
-53                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-53-->[androidx.lifecycle:lifecycle-process:2.8.6] /home/nao14/.gradle/caches/8.9/transforms/937f98550b41b0264112c6151a3e6ffd/transformed/lifecycle-process-2.8.6/AndroidManifest.xml:30:17-78
-54                android:value="androidx.startup" />
-54-->[androidx.lifecycle:lifecycle-process:2.8.6] /home/nao14/.gradle/caches/8.9/transforms/937f98550b41b0264112c6151a3e6ffd/transformed/lifecycle-process-2.8.6/AndroidManifest.xml:31:17-49
-55            <meta-data
-55-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
-56                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-56-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
-57                android:value="androidx.startup" />
-57-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
-58        </provider>
-59
-60        <receiver
-60-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
-61            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-61-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
-62            android:directBootAware="false"
-62-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
-63            android:enabled="true"
-63-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
-64            android:exported="true"
-64-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
-65            android:permission="android.permission.DUMP" >
-65-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
-66            <intent-filter>
-66-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
-67                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-67-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
-67-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
-68            </intent-filter>
-69            <intent-filter>
-69-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
-70                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-70-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
-70-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
-71            </intent-filter>
-72            <intent-filter>
-72-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
-73                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-73-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
-73-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
-74            </intent-filter>
-75            <intent-filter>
-75-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
-76                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-76-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
-76-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/1cc55d670ad1a46ee9eb40e6a738e71c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
-77            </intent-filter>
-78        </receiver>
-79    </application>
-80
-81</manifest>
+26-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:10:9-42
+27        android:supportsRtl="true"
+27-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:11:9-35
+28        android:theme="@android:style/Theme.Material.Light.NoActionBar"
+28-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:13:9-72
+29        android:usesCleartextTraffic="true" >
+29-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:12:9-44
+30        <activity
+30-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:15:9-24:20
+31            android:name="com.sd.mobile.MainActivity"
+31-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:16:13-54
+32            android:exported="true" >
+32-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:17:13-36
+33            <intent-filter>
+33-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:19:13-22:29
+34                <action android:name="android.intent.action.MAIN" />
+34-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:20:17-69
+34-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:20:25-66
+35
+36                <category android:name="android.intent.category.LAUNCHER" />
+36-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:21:17-77
+36-->/home/nao14/projects/supportdigitalize-qol/frontend/mobile/app/src/main/AndroidManifest.xml:21:27-74
+37            </intent-filter>
+38        </activity>
+39
+40        <provider
+40-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/c1189351d00fe140405e5ccd5c4830d6/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+41            android:name="androidx.startup.InitializationProvider"
+41-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/c1189351d00fe140405e5ccd5c4830d6/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+42            android:authorities="com.sd.mobile.androidx-startup"
+42-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/c1189351d00fe140405e5ccd5c4830d6/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+43            android:exported="false" >
+43-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/c1189351d00fe140405e5ccd5c4830d6/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+44            <meta-data
+44-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/c1189351d00fe140405e5ccd5c4830d6/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+45                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+45-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/c1189351d00fe140405e5ccd5c4830d6/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+46                android:value="androidx.startup" />
+46-->[androidx.emoji2:emoji2:1.3.0] /home/nao14/.gradle/caches/8.9/transforms/c1189351d00fe140405e5ccd5c4830d6/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+47            <meta-data
+47-->[androidx.lifecycle:lifecycle-process:2.8.7] /home/nao14/.gradle/caches/8.9/transforms/c3b227112476e7f471e35a58001fbb33/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:29:13-31:52
+48                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+48-->[androidx.lifecycle:lifecycle-process:2.8.7] /home/nao14/.gradle/caches/8.9/transforms/c3b227112476e7f471e35a58001fbb33/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:30:17-78
+49                android:value="androidx.startup" />
+49-->[androidx.lifecycle:lifecycle-process:2.8.7] /home/nao14/.gradle/caches/8.9/transforms/c3b227112476e7f471e35a58001fbb33/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:31:17-49
+50            <meta-data
+50-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+51                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+51-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+52                android:value="androidx.startup" />
+52-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+53        </provider>
+54
+55        <activity
+55-->[androidx.compose.ui:ui-tooling-android:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/e9bc7855d5f9107a8884050ddaaa0eb9/transformed/ui-tooling-release/AndroidManifest.xml:23:9-25:39
+56            android:name="androidx.compose.ui.tooling.PreviewActivity"
+56-->[androidx.compose.ui:ui-tooling-android:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/e9bc7855d5f9107a8884050ddaaa0eb9/transformed/ui-tooling-release/AndroidManifest.xml:24:13-71
+57            android:exported="true" />
+57-->[androidx.compose.ui:ui-tooling-android:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/e9bc7855d5f9107a8884050ddaaa0eb9/transformed/ui-tooling-release/AndroidManifest.xml:25:13-36
+58        <activity
+58-->[androidx.compose.ui:ui-test-manifest:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/78fd7de50c294aa302659429f36385e5/transformed/ui-test-manifest-1.7.5/AndroidManifest.xml:23:9-25:39
+59            android:name="androidx.activity.ComponentActivity"
+59-->[androidx.compose.ui:ui-test-manifest:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/78fd7de50c294aa302659429f36385e5/transformed/ui-test-manifest-1.7.5/AndroidManifest.xml:24:13-63
+60            android:exported="true" />
+60-->[androidx.compose.ui:ui-test-manifest:1.7.5] /home/nao14/.gradle/caches/8.9/transforms/78fd7de50c294aa302659429f36385e5/transformed/ui-test-manifest-1.7.5/AndroidManifest.xml:25:13-36
+61
+62        <receiver
+62-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+63            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+63-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+64            android:directBootAware="false"
+64-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+65            android:enabled="true"
+65-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+66            android:exported="true"
+66-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+67            android:permission="android.permission.DUMP" >
+67-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+68            <intent-filter>
+68-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+69                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+69-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+69-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+70            </intent-filter>
+71            <intent-filter>
+71-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+72                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+72-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+72-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+73            </intent-filter>
+74            <intent-filter>
+74-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+75                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+75-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+75-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+76            </intent-filter>
+77            <intent-filter>
+77-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+78                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+78-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+78-->[androidx.profileinstaller:profileinstaller:1.3.1] /home/nao14/.gradle/caches/8.9/transforms/bb68943646494916d9afda1767c47b1c/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+79            </intent-filter>
+80        </receiver>
+81    </application>
+82
+83</manifest>

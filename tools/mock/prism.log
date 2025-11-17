@@ -1,0 +1,10 @@
+[22:23:51] › [CLI] …  awaiting  Starting Prism…
+[22:23:51] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/qol/weekly
+[22:23:51] › [CLI] ℹ  info      POST       http://127.0.0.1:4010/qol/weekly/ack
+[22:23:51] › [CLI] ▶  start     Prism is listening on http://127.0.0.1:4010
+[22:24:17] › [HTTP SERVER] get /qol/weekly ℹ  info      Request received
+[22:24:17] ›     [NEGOTIATOR] ℹ  info      Request contains an accept header: */*
+[22:24:17] ›     [VALIDATOR] ✔  success   The request passed the validation rules. Looking for the best response
+[22:24:17] ›     [NEGOTIATOR] ✔  success   Found a compatible content for */*
+[22:24:17] ›     [NEGOTIATOR] ✔  success   Responding with the requested status code 200
+[22:24:17] ›     [NEGOTIATOR] ℹ  info      > Responding with "200"
