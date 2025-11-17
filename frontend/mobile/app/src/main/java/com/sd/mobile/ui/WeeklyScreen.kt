@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,6 +42,8 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.time.OffsetDateTime
+import java.time.ZoneId
 
 @Composable
 fun WeeklyScreen(
@@ -328,18 +331,20 @@ private fun SuccessView(
                     }
 
                     else -> {
+                        // ここでカードUIを使って履歴を表示
                         Column(
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier.padding(top = 8.dp)
                         ) {
-                            uiState.ackHistory.forEach { item ->
-                                AckHistoryRow(item = item)
+                            uiState.ackHistory.forEach { historyItem ->
+                                AckHistoryCard(item = historyItem)
                             }
                         }
                     }
                 }
             }
             // ↑↑↑ ACK 履歴セクションここまで ↑↑↑
+
         }
     }
 }
@@ -535,3 +540,126 @@ private fun buildEvidenceList(reason: String): List<String> {
         .map { it.trim() }
         .filter { it.isNotEmpty() }
 }
+
+// ===== M7-B: Ack履歴用 日時フォーマッタ =====
+
+private val japanZoneId = ZoneId.of("Asia/Tokyo")
+private val ackDisplayFormatter: DateTimeFormatter =
+    DateTimeFormatter.ofPattern("M月d日 HH:mm")
+
+fun formatAckAtForDisplay(ackAt: String?): String {
+    if (ackAt.isNullOrBlank()) return "日時不明"
+
+    return try {
+        val odt = OffsetDateTime.parse(ackAt)
+        val jst = odt.atZoneSameInstant(japanZoneId)
+        jst.format(ackDisplayFormatter)
+    } catch (e: Exception) {
+        "日時不明"
+    }
+}
+// ===== M7-B: 最近の確認履歴 UI =====
+
+// NOTE: AckHistoryItem は既存の data class を想定しています。
+// フィールド名が違う場合は、item.◯◯ の部分を後で合わせてください。
+
+@Composable
+fun AckHistorySection(
+    history: List<AckHistoryItem>,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = "最近の確認履歴",
+            style = MaterialTheme.typography.titleMedium
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        if (history.isEmpty()) {
+            Text(
+                text = "まだ確認履歴はありません",
+                style = MaterialTheme.typography.bodyMedium
+            )
+        } else {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(history) { item ->
+                    AckHistoryCard(item = item)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AckHistoryCard(
+    item: AckHistoryItem,
+    modifier: Modifier = Modifier
+) {
+    val displayTime = formatAckAtForDisplay(item.ackAt)
+    val sourceLabel = when (item.source) {
+        "android-release" -> "本番アプリ"
+        "android-debug" -> "デバッグ"
+        else -> item.source.ifBlank { "不明" }
+    }
+
+    Card(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp)
+        ) {
+            // 1行目：日時 ＋ ソースラベル
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = displayTime,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+                SourceChip(
+                    sourceLabel = sourceLabel,
+                    source = item.source
+                )
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            // 2行目：requestId（小さめ）
+            Text(
+                text = "requestId: ${item.requestId}",
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
+    }
+}
+
+@Composable
+fun SourceChip(
+    sourceLabel: String,
+    source: String?,
+    modifier: Modifier = Modifier
+) {
+    val background = when (source) {
+        "android-release" -> MaterialTheme.colorScheme.primaryContainer
+        "android-debug" -> MaterialTheme.colorScheme.secondaryContainer
+        else -> MaterialTheme.colorScheme.surfaceVariant
+    }
+
+    Surface(
+        modifier = modifier,
+        shape = MaterialTheme.shapes.small,
+        color = background
+    ) {
+        Text(
+            text = sourceLabel,
+            style = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+        )
+    }
+}
+
